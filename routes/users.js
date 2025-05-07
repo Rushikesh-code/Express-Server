@@ -6,7 +6,7 @@ const router = express.Router();
 // POST /users/signin
 router.post("/signin", (req, resp) => {
   const { email, passwd } = req.body;
-  console.log(req.url + " - " + req.method + " : " + email + " & " + passwd);
+  //   console.log(req.url + " - " + req.method + " : " + email + " & " + passwd);
   db.query("SELECT * FROM user WHERE email=?", [email], (err, results) => {
     if (err) return resp.send(apiError(err));
 
@@ -31,12 +31,39 @@ router.post("/signup", (req, resp) => {
     [fname, lname, email, passwd, mobile, addr],
     (err, result) => {
       if (err) return resp.send(apiError(err));
+      console.log(result);
       // if user inserted successfully, return new user object
       if (result.affectedRows === 1) {
         db.query(
           "SELECT * FROM user WHERE id=?",
           [result.insertId],
           (err, results) => {
+            // console.log(result);
+            if (err) return resp.send(apiError(err));
+            resp.send(apiSuccess(results[0]));
+          }
+        );
+      }
+    }
+  );
+});
+
+//edit user based on provided value
+router.put("/:id", (req, resp) => {
+  const { fname, lname, email, passwd, mobile, addr } = req.body;
+  db.query(
+    "UPDATE user SET firstName = ?, lastName = ?, email = ?, password = ?, phoneno = ?, address = ? WHERE id = ?",
+    [fname, lname, email, passwd, mobile, addr, [req.params.id]],
+    (err, result) => {
+      if (err) return resp.send(apiError(err));
+
+      // success
+      if (result.affectedRows === 1) {
+        db.query(
+          "SELECT * FROM user WHERE id=?",
+          [req.params.id],
+          (err, results) => {
+            // console.log(result);
             if (err) return resp.send(apiError(err));
             resp.send(apiSuccess(results[0]));
           }

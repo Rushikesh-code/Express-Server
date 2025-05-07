@@ -54,8 +54,8 @@ router.post("/addQuote", (req, resp) => {
 });
 
 // Delete Quote
-router.delete("/:id", (res, resp) => {
-  db.query("DELETE FROM quote WHERE id = ?", [id], (err, result) => {
+router.delete("/:id", (req, resp) => {
+  db.query("DELETE FROM quote WHERE id = ?", [req.params.id], (err, result) => {
     if (err) return resp.send(apiError(err));
 
     // Success
@@ -63,4 +63,5 @@ router.delete("/:id", (res, resp) => {
     return resp.send(apiSuccess("Quote is Deleted"));
   });
 });
+
 module.exports = router;
