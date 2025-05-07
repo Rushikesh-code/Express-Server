@@ -1,0 +1,12 @@
+{
+  "name": "Express-Server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Rushikesh-code/Express-Server.git",
+  "author": "TheSBVaidya <sanjaybabanvaidya@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}
